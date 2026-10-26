@@ -1,0 +1,10 @@
+Record,Predicted_Category,Confidence_Percent,Second_Prediction,Second_Confidence_Percent,Attack_Type,Description,Low_Confidence
+1,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+2,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+3,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+4,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+5,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+6,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+7,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+8,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False
+9,Normal,99.98,Fuzzers,0.01,Normal Traffic,The network traffic appears to be legitimate and no attack is detected.,False

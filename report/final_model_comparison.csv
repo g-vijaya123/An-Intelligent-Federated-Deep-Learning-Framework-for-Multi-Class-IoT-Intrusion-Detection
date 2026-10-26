@@ -1,0 +1,8 @@
+Metric,Without SMOTE-Tomek (%),Controlled SMOTE-Tomek (%)
+Accuracy,79.43,78.18
+Weighted Precision,77.77,77.96
+Weighted Recall,79.43,78.18
+Weighted F1,76.69,75.66
+Macro Precision,54.0,49.56
+Macro Recall,42.0,53.73
+Macro F1,42.0,44.57

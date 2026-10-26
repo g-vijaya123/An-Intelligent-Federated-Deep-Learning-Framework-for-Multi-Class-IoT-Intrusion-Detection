@@ -1,0 +1,14 @@
+,Predicted_Normal,Predicted_DDoS,Predicted_DoS,Predicted_Reconnaissance,Predicted_Backdoor,Predicted_Injection,Predicted_BruteForce,Predicted_MITM,Predicted_Malware,Predicted_Exploits,Predicted_Fuzzers,Predicted_Generic,Predicted_OtherAttack
+Actual_Normal,152352,483,1,34110,0,0,0,0,48,6701,38,243,890
+Actual_DDoS,617169,6258,1057,164075,0,15,0,0,0,253816,80,0,274702
+Actual_DoS,185478,759,981,40395,0,9,0,0,15,61121,9,53,22317
+Actual_Reconnaissance,3521,90,8,16113,0,0,0,0,0,8924,5,54,1005
+Actual_Backdoor,648,9,0,521,0,0,0,0,1,36,0,3,4
+Actual_Injection,2327,2,0,639,0,0,0,0,0,240,0,14,12
+Actual_BruteForce,1779,0,0,455,0,0,0,0,0,179,0,0,56
+Actual_MITM,988,59,9,13596,0,0,0,0,0,3474,0,9,356
+Actual_Malware,276,18,171,99953,0,0,0,0,0,853,0,0,345
+Actual_Exploits,59,581,0,820,0,0,0,0,44,60,32,137,2
+Actual_Fuzzers,92,47,0,650,0,0,0,0,53,1,32,108,3
+Actual_Generic,6,51,3,359,0,0,0,0,4,3,14,8269,1
+Actual_OtherAttack,1475,37,0,315,0,0,0,0,0,90,0,11,1

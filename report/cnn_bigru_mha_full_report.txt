@@ -1,0 +1,39 @@
+Federated CNN-BiGRU-MultiHeadAttention IDS
+
+Training Records: 2032037
+Testing Records: 508010
+Features: 43
+Classes: 10
+
+Accuracy: 0.970006
+Weighted Precision: 0.980815
+Weighted Recall: 0.970006
+Weighted F1: 0.973744
+Macro Precision: 0.460100
+Macro Recall: 0.597123
+Macro F1: 0.498662
+
+Round Accuracies
+Round 1: 0.961983
+Round 2: 0.966473
+Round 3: 0.968794
+Round 4: 0.969491
+Round 5: 0.970007
+
+Classification Report
+                precision    recall  f1-score   support
+
+      Analysis     0.1503    0.2374    0.1841       535
+      Backdoor     0.0000    0.0000    0.0000       466
+           DoS     0.3082    0.7704    0.4403      3271
+      Exploits     0.7445    0.5268    0.6170      8905
+       Fuzzers     0.4187    0.7711    0.5427      4849
+       Generic     0.9998    0.9736    0.9865     43096
+        Normal     1.0000    0.9856    0.9928    443753
+Reconnaissance     0.5575    0.7395    0.6357      2798
+     Shellcode     0.4220    0.9669    0.5875       302
+         Worms     0.0000    0.0000    0.0000        35
+
+      accuracy                         0.9700    508010
+     macro avg     0.4601    0.5971    0.4987    508010
+  weighted avg     0.9808    0.9700    0.9737    508010

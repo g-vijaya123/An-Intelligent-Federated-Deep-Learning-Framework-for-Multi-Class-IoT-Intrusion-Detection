@@ -1,0 +1,62 @@
+FEDERATED 3-DATASET IDS — 20% REPRESENTATIVE SUBSET
+================================================================================
+
+Datasets:
+- UNSW-NB15
+- CICIoT2023
+- Edge-IIoTset
+
+Model:
+CNN + BiGRU + Multi-Head Attention
+
+Features: 16
+Classes : 13
+Best federated round: 3
+
+FINAL POOLED METRICS
+--------------------------------------------------------------------------------
+Accuracy      : 9.2343%
+Weighted F1   : 3.8199%
+Macro F1      : 10.3947%
+Macro Recall  : 18.0678%
+Client Macro-F1 Average: 9.4641%
+
+PER-DATASET RESULTS
+--------------------------------------------------------------------------------
+
+UNSW
+Accuracy     : 94.4302%
+Macro F1     : 17.3175%
+Macro Recall : 21.1399%
+
+CICIoT2023
+Accuracy     : 1.2782%
+Macro F1     : 0.7082%
+Macro Recall : 4.5347%
+
+EdgeIIoTset
+Accuracy     : 74.0062%
+Macro F1     : 10.3667%
+Macro Recall : 11.8221%
+
+CLASSIFICATION REPORT
+--------------------------------------------------------------------------------
+                precision    recall  f1-score   support
+
+        Normal     0.1577    0.7818    0.2624    194866
+          DDoS     0.7455    0.0048    0.0094   1317172
+           DoS     0.4399    0.0032    0.0063    311137
+Reconnaissance     0.0433    0.5422    0.0802     29720
+      Backdoor     0.0000    0.0000    0.0000      1222
+     Injection     0.0000    0.0000    0.0000      3234
+    BruteForce     0.0000    0.0000    0.0000      2469
+          MITM     0.0000    0.0000    0.0000     18491
+       Malware     0.0000    0.0000    0.0000    101616
+      Exploits     0.0002    0.0346    0.0004      1735
+       Fuzzers     0.1524    0.0325    0.0535       986
+       Generic     0.9290    0.9494    0.9391      8710
+   OtherAttack     0.0000    0.0005    0.0000      1929
+
+      accuracy                         0.0923   1993287
+     macro avg     0.1898    0.1807    0.1039   1993287
+  weighted avg     0.5815    0.0923    0.0382   1993287

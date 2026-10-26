@@ -1,0 +1,40 @@
+Federated CNN-BiLSTM-Attention
+Full UNSW-NB15 Dataset
+
+Training Records: 2032037
+Testing Records: 508010
+Features: 43
+Classes: 10
+
+Accuracy: 0.952017
+Weighted Precision: 0.979277
+Weighted Recall: 0.952017
+Weighted F1: 0.962903
+Macro Precision: 0.405683
+Macro Recall: 0.662569
+Macro F1: 0.409699
+
+Federated Round Accuracies
+Round 1: 0.931277
+Round 2: 0.939954
+Round 3: 0.946149
+Round 4: 0.949812
+Round 5: 0.952017
+
+Classification Report
+                precision    recall  f1-score   support
+
+      Analysis     0.0861    0.2561    0.1289       535
+      Backdoor     0.0405    0.8476    0.0773       466
+           DoS     0.0286    0.0128    0.0177      3271
+      Exploits     0.8119    0.3708    0.5091      8905
+       Fuzzers     0.3633    0.7086    0.4804      4849
+       Generic     0.9995    0.9718    0.9854     43096
+        Normal     0.9999    0.9743    0.9870    443753
+Reconnaissance     0.5262    0.6244    0.5711      2798
+     Shellcode     0.1883    0.9735    0.3156       302
+         Worms     0.0124    0.8857    0.0245        35
+
+      accuracy                         0.9520    508010
+     macro avg     0.4057    0.6626    0.4097    508010
+  weighted avg     0.9793    0.9520    0.9629    508010

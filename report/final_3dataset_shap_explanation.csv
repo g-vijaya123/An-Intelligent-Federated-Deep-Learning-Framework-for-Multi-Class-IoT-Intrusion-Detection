@@ -1,0 +1,17 @@
+Dataset,Actual_Attack,Predicted_Attack,Confidence,Feature,Raw_Value,SHAP_Value,Absolute_SHAP,Influence
+UNSW,Exploits,Exploits,0.2786763310432434,ttl,157.0,0.17500770092010498,0.17500770092010498,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,dst_packets,38.0,0.06392672657966614,0.06392672657966614,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,iat,28.654793,0.0394291989505291,0.0394291989505291,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,rst_count,0.0,-0.031096141785383224,0.031096141785383224,Opposes predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,fin_count,0.0,0.02153431437909603,0.02153431437909603,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,src_packets,20.0,0.02147495746612549,0.02147495746612549,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,packet_size_min,0.0,0.016916919499635696,0.016916919499635696,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,syn_count,0.0,0.01617772877216339,0.01617772877216339,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,packet_rate,78.375404,-0.013926050625741482,0.013926050625741482,Opposes predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,duration,0.727269,-0.011336454190313816,0.011336454190313816,Opposes predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,dst_bytes,31252.0,0.010541578754782677,0.010541578754782677,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,ack_count,0.0,-0.005151468329131603,0.005151468329131603,Opposes predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,packet_size_mean,439.0,0.002977229654788971,0.002977229654788971,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,packet_size_max,0.0,-0.001269126427359879,0.001269126427359879,Opposes predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,src_bytes,1122.0,0.0011760466732084751,0.0011760466732084751,Supports predicted class
+UNSW,Exploits,Exploits,0.2786763310432434,packet_size_std,0.0,0.00011446805001469329,0.00011446805001469329,Supports predicted class

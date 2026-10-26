@@ -1,0 +1,79 @@
+===========================================================================
+V2 CLASS-BALANCED 3-DATASET FEDERATED IDS - FINAL REPORT
+===========================================================================
+
+Training configuration:
+Clients: UNSW, CICIoT2023, EdgeIIoTset
+Features: 16
+Classes: 13
+Federated rounds: 10
+Local steps per client per round: 100
+Batch size: 1024
+Learning rate: 5e-05
+Tempered sampling alpha: 0.0
+Aggregation: equal-client federated averaging
+Normalization: shared global TRAIN-ONLY scaler
+Test data used during training: NO
+
+===========================================================================
+PER-DATASET FINAL TEST RESULTS
+===========================================================================
+
+UNSW:
+  Records: 101,152
+  Accuracy: 94.70%
+  Weighted F1: 95.42%
+  Macro Precision: 28.86%
+  Macro Recall: 36.72%
+  Macro F1: 27.53%
+
+CICIoT2023:
+  Records: 1,803,637
+  Accuracy: 69.38%
+  Weighted F1: 71.79%
+  Macro Precision: 25.20%
+  Macro Recall: 30.10%
+  Macro F1: 24.39%
+
+EdgeIIoTset:
+  Records: 88,498
+  Accuracy: 73.35%
+  Weighted F1: 63.67%
+  Macro Precision: 25.52%
+  Macro Recall: 20.65%
+  Macro F1: 19.34%
+
+===========================================================================
+POOLED FINAL TEST RESULTS
+===========================================================================
+Total test records: 1,993,287
+Pooled Accuracy: 70.84%
+Pooled Weighted Precision: 75.15%
+Pooled Weighted Recall: 70.84%
+Pooled Weighted F1: 72.11%
+Pooled Macro Precision: 35.29%
+Pooled Macro Recall: 38.17%
+Pooled Macro F1: 34.61%
+Average Client Macro F1: 23.75%
+
+===========================================================================
+PER-CLASS RESULTS
+===========================================================================
+Normal             Precision= 61.17% Recall= 95.95% F1= 74.71% Support=194,866
+DDoS               Precision= 87.17% Recall= 74.25% F1= 80.19% Support=1,317,172
+DoS                Precision= 35.61% Recall= 42.90% F1= 38.92% Support=311,137
+Reconnaissance     Precision= 34.87% Recall= 13.21% F1= 19.16% Support=29,720
+Backdoor           Precision=  0.87% Recall=  8.02% F1=  1.56% Support=1,222
+Injection          Precision=  2.04% Recall=  0.28% F1=  0.49% Support=3,234
+BruteForce         Precision=  0.85% Recall=  0.73% F1=  0.79% Support=2,469
+MITM               Precision=  9.26% Recall= 25.47% F1= 13.58% Support=18,491
+Malware            Precision= 97.39% Recall= 94.32% F1= 95.83% Support=101,616
+Exploits           Precision= 16.64% Recall= 41.38% F1= 23.74% Support=1,735
+Fuzzers            Precision= 18.50% Recall=  3.25% F1=  5.52% Support=986
+Generic            Precision= 94.42% Recall= 96.38% F1= 95.39% Support=8,710
+OtherAttack        Precision=  0.03% Recall=  0.05% F1=  0.04% Support=1,929
+
+Scientific note:
+The three source datasets have different original feature schemas and attack distributions. They were mapped into a shared 16-feature representation and 13-class taxonomy. Missing semantic features in a source dataset may be represented by zeros, so cross-domain distribution shift remains a limitation.
+
+The aggregation used here gives equal influence to the three dataset clients. Therefore it should be described as equal-client federated averaging / FedAvg-style aggregation rather than canonical sample-count-weighted FedAvg.

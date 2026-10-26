@@ -1,0 +1,53 @@
+Federated CNN-BiGRU-MultiHeadAttention + Focal Loss
+
+Training Records: 2032037
+Testing Records: 508010
+Features: 43
+Classes: 10
+Focal Gamma: 2.0
+
+Focal Alpha Values:
+Analysis: 1.124251
+Backdoor: 1.205498
+DoS: 0.454921
+Exploits: 0.275693
+Fuzzers: 0.373599
+Generic: 0.250000
+Normal: 0.250000
+Reconnaissance: 0.491901
+Shellcode: 1.496442
+Worms: 4.413321
+
+Accuracy: 0.971973
+Weighted Precision: 0.978141
+Weighted Recall: 0.971973
+Weighted F1: 0.973919
+Macro Precision: 0.463936
+Macro Recall: 0.562076
+Macro F1: 0.490008
+
+Round Accuracies:
+Round 1: 0.965617
+Round 2: 0.968467
+Round 3: 0.969668
+Round 4: 0.970902
+Round 5: 0.971973
+
+Classification Report
+
+                precision    recall  f1-score   support
+
+      Analysis     0.1766    0.1664    0.1713       535
+      Backdoor     0.0000    0.0000    0.0000       466
+           DoS     0.3136    0.7563    0.4434      3271
+      Exploits     0.7404    0.5162    0.6083      8905
+       Fuzzers     0.4549    0.5436    0.4953      4849
+       Generic     0.9991    0.9742    0.9865     43096
+        Normal     0.9968    0.9909    0.9938    443753
+Reconnaissance     0.5274    0.7162    0.6075      2798
+     Shellcode     0.4307    0.9570    0.5940       302
+         Worms     0.0000    0.0000    0.0000        35
+
+      accuracy                         0.9720    508010
+     macro avg     0.4639    0.5621    0.4900    508010
+  weighted avg     0.9781    0.9720    0.9739    508010

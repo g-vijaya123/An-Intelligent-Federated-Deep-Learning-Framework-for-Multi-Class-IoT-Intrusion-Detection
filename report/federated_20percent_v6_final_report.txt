@@ -1,0 +1,84 @@
+===========================================================================
+V6 WARM-STARTED CLASS-AWARE 3-DATASET FEDERATED IDS - FINAL REPORT
+===========================================================================
+
+Training configuration:
+Clients: UNSW, CICIoT2023, EdgeIIoTset
+Features: 16
+Classes: 13
+Federated rounds: 15
+Local steps per client per round: 120
+Batch size: 512
+Learning rate: 6e-05
+Tempered sampling alpha: 0.0
+Aggregation: equal-client federated averaging
+Normalization: V5 shared scaler fitted only on effective 90% training rows; validation and test excluded
+Test data used during training: NO
+V6 initialization: V5 final global model weights (training-only warm-start); fresh Adam optimizer state
+V6 selection: 0.50 * client mean macro-F1 + 0.30 * pooled macro-F1 + 0.20 * pooled accuracy on fixed validation partitions
+V6 class adaptation: sampled from effective-training rows only (no validation or test labels for sampling)
+Selected V6 fine-tune round (0 = V5 baseline): 11
+Research note: V5 test results were inspected prior to V6 design. The same held-out test partitions are useful for exploratory comparison but are not a pristine independent confirmatory test for V6. A fresh independent test set is needed for unbiased publication claims.
+
+===========================================================================
+PER-DATASET FINAL TEST RESULTS
+===========================================================================
+
+UNSW:
+  Records: 101,152
+  Accuracy: 95.77%
+  Weighted F1: 96.36%
+  Macro Precision: 37.47%
+  Macro Recall: 44.30%
+  Macro F1: 37.84%
+
+CICIoT2023:
+  Records: 1,803,637
+  Accuracy: 67.89%
+  Weighted F1: 71.73%
+  Macro Precision: 33.47%
+  Macro Recall: 36.78%
+  Macro F1: 28.23%
+
+EdgeIIoTset:
+  Records: 88,498
+  Accuracy: 67.71%
+  Weighted F1: 69.96%
+  Macro Precision: 41.08%
+  Macro Recall: 33.21%
+  Macro F1: 31.46%
+
+===========================================================================
+POOLED FINAL TEST RESULTS
+===========================================================================
+Total test records: 1,993,287
+Pooled Accuracy: 69.30%
+Pooled Weighted Precision: 79.90%
+Pooled Weighted Recall: 69.30%
+Pooled Weighted F1: 72.85%
+Pooled Macro Precision: 42.90%
+Pooled Macro Recall: 46.58%
+Pooled Macro F1: 41.05%
+Average Client Macro F1: 32.51%
+
+===========================================================================
+PER-CLASS RESULTS
+===========================================================================
+Normal             Precision= 91.01% Recall= 79.65% F1= 84.95% Support=194,866
+DDoS               Precision= 89.12% Recall= 69.05% F1= 77.81% Support=1,317,172
+DoS                Precision= 35.05% Recall= 62.69% F1= 44.96% Support=311,137
+Reconnaissance     Precision= 68.48% Recall= 19.42% F1= 30.26% Support=29,720
+Backdoor           Precision=  0.91% Recall= 12.36% F1=  1.70% Support=1,222
+Injection          Precision=  3.31% Recall= 16.02% F1=  5.49% Support=3,234
+BruteForce         Precision=  2.00% Recall=  7.98% F1=  3.20% Support=2,469
+MITM               Precision= 17.25% Recall= 36.37% F1= 23.40% Support=18,491
+Malware            Precision= 97.91% Recall= 96.62% F1= 97.26% Support=101,616
+Exploits           Precision= 19.87% Recall= 33.72% F1= 25.01% Support=1,735
+Fuzzers            Precision= 35.27% Recall= 48.68% F1= 40.90% Support=986
+Generic            Precision= 96.26% Recall= 96.61% F1= 96.44% Support=8,710
+OtherAttack        Precision=  1.18% Recall= 26.39% F1=  2.26% Support=1,929
+
+Scientific note:
+The three source datasets have different original feature schemas and attack distributions. They were mapped into a shared 16-feature representation and 13-class taxonomy. Missing semantic features in a source dataset may be represented by zeros, so cross-domain distribution shift remains a limitation.
+
+The aggregation used here gives equal influence to the three dataset clients. Therefore it should be described as equal-client federated averaging / FedAvg-style aggregation rather than canonical sample-count-weighted FedAvg.
