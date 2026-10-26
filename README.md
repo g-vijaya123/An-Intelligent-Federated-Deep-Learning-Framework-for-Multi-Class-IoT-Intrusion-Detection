@@ -1,226 +1,248 @@
-# Intrusion Detection System with Hybrid CNN–LSTM
+# An Intelligent Federated Deep Learning Framework for Multi-Class IoT Intrusion Detection
 
-### Detect network attacks with deep learning — built on UNSW-NB15, aligned with IEEE Access 2022
+A research-oriented **IoT network intrusion detection system** that explores federated deep learning for classifying network traffic into normal activity and multiple attack categories. The project includes multi-client training experiments, CNN–BiGRU–Multi-Head Attention models, evaluation reports, and SHAP-based explainability.
 
-[![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.21-orange.svg)](https://www.tensorflow.org/)
-[![Dataset](https://img.shields.io/badge/Dataset-UNSW--NB15-green.svg)](https://research.unsw.edu.au/projects/unsw-nb15-dataset)
-[![Paper](https://img.shields.io/badge/Paper-IEEE%20Access%202022-red.svg)](https://doi.org/10.1109/ACCESS.2022.3206425)
+> **Research note:** This repository contains multiple experimental variants. Results depend on the dataset preparation, model version, sampling strategy, and evaluation split. Use the report that matches the exact model and experiment you are discussing; do not treat metrics from different runs as directly interchangeable.
 
-> **In one sentence:** this project reads network-connection records and predicts whether each one is **normal traffic** or an **attack** — using a hybrid neural network that combines **CNN** (patterns) and **LSTM** (sequence memory).
+## Contents
 
----
+- [Project overview](#project-overview)
+- [Key features](#key-features)
+- [Datasets and federated clients](#datasets-and-federated-clients)
+- [Model architecture](#model-architecture)
+- [Repository structure](#repository-structure)
+- [Environment setup](#environment-setup)
+- [Prepare data and run experiments](#prepare-data-and-run-experiments)
+- [Run the Streamlit applications](#run-the-streamlit-applications)
+- [Evaluation and explainability](#evaluation-and-explainability)
+- [Reproducibility and limitations](#reproducibility-and-limitations)
+- [References](#references)
 
-## What was built?
+## Project overview
 
-| Piece | What it does (plain English) |
-|-------|------------------------------|
-| **Preprocessing pipeline** | Cleans raw CSV traffic, converts text to numbers, scales features, picks the best 32 features |
-| **CNN model** | Finds local “suspicious combinations” among features |
-| **LSTM model** | Remembers relationships across the feature sequence |
-| **Hybrid CNN–LSTM** | CNN extracts patterns → LSTM reads them in order → Softmax decides Normal / Attack (or attack type) |
-| **Trainer** | Trains with EarlyStopping + safe validation (no misleading scores) |
-| **Evaluator** | Reports accuracy, precision, detection rate, F1, **FAR**, confusion matrix, ROC |
+Intrusion Detection Systems (IDS) help identify suspicious network activity. IoT environments are especially challenging because devices, traffic patterns, and attack types can vary widely. A model trained on one dataset may not generalize equally well to other environments, and centralized training may require raw traffic from multiple organizations to be pooled.
 
-**Two modes**
-- **Binary** — Normal vs Attack  
-- **Multiclass** — 10 categories (Normal, DoS, Exploits, Generic, Fuzzers, …)
+This project investigates a **federated learning workflow** in which participating clients train locally and contribute model updates to a shared global model. It also explores multi-class prediction and model explanations to help analysts understand which traffic features influence a prediction.
 
----
+The implementation is an experimental research project, not a production network security appliance. Federated learning can reduce the need to centralize raw training data, but it does not by itself guarantee privacy, security, or robustness.
 
-## Why this matters
+## Key features
 
-Traditional IDS often relies on **known attack signatures**. New (zero-day) attacks slip through.  
-Deep learning learns patterns from data, so it can generalize better.
+- **Multi-class intrusion detection:** supports a common 13-class label set in the three-dataset workflow.
+- **Federated training experiments:** scripts for client-based training and global-model aggregation.
+- **Deep learning:** CNN, bidirectional GRU (BiGRU), and Multi-Head Attention model variants.
+- **Multiple data workflows:** UNSW-NB15, CICIoT2023, and Edge-IIoTset experiments, including a harmonized three-dataset pipeline.
+- **Evaluation artifacts:** training metrics, classification reports, confusion matrices, and model-comparison outputs.
+- **Explainable AI:** SHAP-related scripts and saved explanations for selected predictions.
+- **Interactive demos:** Streamlit applications for the full-feature and three-dataset workflows, provided the matching local model and preprocessing artifacts are available.
 
-This implementation follows the method of **Halbouni et al.** (*CNN-LSTM: Hybrid Deep Neural Network for Network Intrusion Detection System*, [IEEE Access 2022](https://doi.org/10.1109/ACCESS.2022.3206425)).
+## Datasets and federated clients
 
----
+The three-dataset workflow uses these datasets as separate client domains:
 
-## How it works
+1. **UNSW-NB15**
+2. **CICIoT2023**
+3. **Edge-IIoTset**
 
-```mermaid
-flowchart LR
-  A[Raw CSV traffic] --> B[Encode + StandardScaler]
-  B --> C[SelectKBest k=32]
-  C --> D[Reshape to 32 x 1]
-  D --> E[Conv1D + MaxPool + BatchNorm]
-  E --> F[LSTM + Dropout]
-  F --> G[Softmax]
-  G --> H[Normal or Attack]
-```
+The three-dataset pipeline harmonizes traffic into a shared feature representation and a common set of attack labels. The 16-feature representation used by the relevant three-dataset scripts includes:
 
-**Hybrid architecture (3 stacked blocks)**
+`duration`, `packet_rate`, `src_packets`, `dst_packets`, `src_bytes`, `dst_bytes`, `packet_size_mean`, `packet_size_min`, `packet_size_max`, `packet_size_std`, `ttl`, `syn_count`, `ack_count`, `fin_count`, `rst_count`, and `iat`.
 
-```
-Input (32 features, 1 channel)
-│
-├─ Conv1D(64)  → MaxPool → BatchNorm → LSTM(64) → Dropout(0.2)
-├─ Conv1D(128) → MaxPool → BatchNorm → LSTM(64) → Dropout(0.2)
-├─ Conv1D(256) → MaxPool → BatchNorm → LSTM(64) → Dropout(0.2)
-│
-└─ Dense(n_classes, Softmax)  → prediction
-```
+The 13-class label set used in this workflow is:
 
-| Layer | Job |
-|-------|-----|
-| **Conv1D** | Spot local patterns in the feature vector |
-| **MaxPooling** | Keep the strongest signals, shrink the sequence |
-| **BatchNorm** | Stabilize and speed up training |
-| **LSTM** | Learn order / dependencies across features |
-| **Dropout (0.2)** | Reduce overfitting |
-| **Softmax** | Output class probabilities |
+`Normal`, `DDoS`, `DoS`, `Reconnaissance`, `Backdoor`, `Injection`, `BruteForce`, `MITM`, `Malware`, `Exploits`, `Fuzzers`, `Generic`, and `OtherAttack`.
 
----
+**Dataset access and preparation:** dataset files are not included in this repository. Obtain them from their official sources and follow the preparation scripts and expected paths in the code. Check each dataset's license and terms before use or redistribution.
 
-## Results (headline)
+- [UNSW-NB15 — UNSW research page](https://research.unsw.edu.au/projects/unsw-nb15-dataset)
+- [CICIoT2023 — Canadian Institute for Cybersecurity](https://www.unb.ca/cic/datasets/iotdataset-2023.html)
+- [Edge-IIoTset — dataset publication and resources](https://ieee-dataport.org/documents/edge-iiotset-new-comprehensive-realistic-cyber-security-dataset-iot-and-iiot-applications)
 
-Evaluated on **UNSW-NB15** with a stratified split (paper-comparable).
+## Model architecture
 
-### Binary — Normal vs Attack
+The principal three-dataset experiments use a hybrid **CNN–BiGRU–Multi-Head Attention** architecture.
 
-| Model | Accuracy | Detection Rate | F1 | FAR ↓ |
-|-------|----------|----------------|-----|-------|
-| CNN only | 93.72% | 94.41% | 95.05% | 7.49% |
-| LSTM only | 92.96% | 94.04% | 94.47% | 8.94% |
-| **Hybrid CNN–LSTM** | **93.93%** | **94.13%** | **95.20%** | **6.42%** |
+1. **Input and preprocessing:** load prepared features and apply the shared training-derived scaling/preprocessing artifacts.
+2. **CNN layers:** learn local patterns in traffic features.
+3. **BiGRU layers:** learn relationships across the feature sequence in both directions.
+4. **Multi-Head Attention:** model relationships among learned representations.
+5. **Classification layer:** output scores for the supported traffic classes.
+6. **Federated aggregation:** combine client model updates into a global model according to the experiment implementation.
 
-**ROC-AUC (hybrid):** **0.989**
+The repository contains several experiment versions, including a V6 three-client, 16-feature, 13-class workflow. Different scripts may use different data folders, model filenames, sampling methods, or training settings; keep each run paired with its own preprocessing artifacts and report.
 
-| Reference | Accuracy | Detection Rate |
-|-----------|----------|----------------|
-| Halbouni et al. (2022) on UNSW-NB15 | ~93.68% | ~94.84% |
-| **This project** | **93.93%** | **94.13%** |
+## Repository structure
 
-### Multiclass — 10 attack types
-
-| Model | Accuracy | F1 | FAR ↓ |
-|-------|----------|-----|-------|
-| CNN only | 81.34% | 78.30% | 2.40% |
-| LSTM only | 80.07% | 78.65% | 2.47% |
-| **Hybrid CNN–LSTM** | **82.22%** | **80.31%** | **2.23%** |
-
-**Takeaway:** the hybrid beats both single-model baselines, with high detection and a lower false-alarm rate.
-
-### Visuals
-
-| Binary confusion | Binary ROC | Multiclass confusion |
-|------------------|------------|----------------------|
-| ![Binary CM](report/cnn_lstm_binary_stratified_confusion.png) | ![Binary ROC](report/cnn_lstm_binary_stratified_roc.png) | ![Multiclass CM](report/cnn_lstm_multiclass_stratified_confusion.png) |
-
-More charts: [`report/`](report/) · Comparison bars: [`report/comparison_binary_stratified.png`](report/comparison_binary_stratified.png)
-
----
-
-## Project map
-
-```
-Intrusion-Detection-System-LSTM-and-CNN/
-├── data/                  # Put UNSW-NB15 CSVs here (not in git — large)
-├── notebooks/
-│   └── 01_explore.ipynb   # Exploratory data analysis
+```text
+.
+├── app.py                              # Streamlit demo for the full-feature workflow
+├── app_3dataset.py                     # Streamlit demo for the three-dataset workflow
 ├── src/
-│   ├── preprocess.py      # Clean → scale → select features
-│   ├── model.py           # CNN, LSTM, hybrid CNN-LSTM
-│   ├── train.py           # Train + save model + metadata
-│   ├── evaluate.py        # Metrics + plots (incl. FAR)
-│   └── run_all.py         # Optional full experiment matrix
-├── models/                # Trained weights (ignored) + meta JSON
-├── report/                # Figures, CSVs, academic write-up, keywords PDF
+│   ├── federated.py                    # Federated experiment
+│   ├── federated_20percent_bigru_mha.py # Earlier 20% data experiment
+│   ├── federated_20percent_bigru_mha_v6.py
+│   ├── federated_3dataset_bigru_mha.py # Three-dataset model workflow
+│   ├── federated_cnn_bigru_mha.py
+│   ├── federated_cnn_bigru_mha_focal.py
+│   ├── federated_hybrid_full.py
+│   ├── harmonize_3_datasets.py          # Dataset harmonization
+│   ├── prepare_3dataset_20percent.py    # Prepare a subset for experiments
+│   ├── prepare_3dataset_fl.py           # Prepare federated client data
+│   ├── prepare_unseen.py                # Prepare unseen evaluation data
+│   ├── evaluate_unseen.py               # Evaluate on unseen data
+│   ├── explain*.py                      # SHAP/explainability workflows
+│   └── predict*.py                      # Prediction utilities
+├── models/                              # Local model and preprocessing artifacts
+├── report/                              # Metrics, reports, plots, and explanations
+├── data/                                # Local datasets and prepared arrays (not committed)
 ├── requirements.txt
-└── README.md              # You are here
+└── README.md
 ```
 
----
+The source directory also contains data inspection, validation, balancing, scaler-building, plotting, and diagnostic utilities. See the scripts' configuration sections for their exact input and output paths.
 
-## Quick start
+## Environment setup
 
-> **Before you train:** the UNSW-NB15 CSV files are **not** in this GitHub repo (they are large).
-> Download them into `data/` first, then run:
->
-> ```powershell
-> python src/check_setup.py
-> ```
->
-> Every check must say `[PASS]`. Full demo steps: [`DEMO.md`](DEMO.md) · Dataset help: [`data/README.md`](data/README.md)
+Python **3.12.10** was used in the development environment for this project. TensorFlow and other compiled dependencies can be sensitive to Python and operating-system versions, so use a clean virtual environment and compatible package versions.
 
-### 1. Requirements
-- **Python 3.9–3.12** (prefer **3.12**; TensorFlow does not support 3.14 yet)
-- Windows / macOS / Linux
-
-### 2. Install
+### Windows PowerShell
 
 ```powershell
-git clone https://github.com/sahil143-dotcom/Intrusion-Detection-System-LSTM-and-CNN.git
-cd Intrusion-Detection-System-LSTM-and-CNN
+git clone https://github.com/g-vijaya123/An-Intelligent-Federated-Deep-Learning-Framework-for-Multi-Class-IoT-Intrusion-Detection.git
+cd An-Intelligent-Federated-Deep-Learning-Framework-for-Multi-Class-IoT-Intrusion-Detection
 
-python -m venv venv
-.\venv\Scripts\Activate.ps1          # mac/linux: source venv/bin/activate
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
 pip install -r requirements.txt
+pip install tensorflow streamlit shap joblib
 ```
 
-### 3. Add the dataset (required)
+The extra install command includes packages imported by the application and experiment scripts that may not all be listed in the current `requirements.txt`. For a repeatable research setup, pin and test the dependency versions used in your environment before sharing results.
 
-Download **both** files and place them in `data/` with these **exact** names:
-
-| Filename | Role here |
-|----------|-----------|
-| `UNSW_NB15_testing-set.csv` | Training (~175k rows) |
-| `UNSW_NB15_training-set.csv` | Testing (~82k rows) |
-
-Sources:
-- [UNSW research page](https://research.unsw.edu.au/projects/unsw-nb15-dataset)
-- Or Kaggle: `mrwellsdavid/unsw-nb15`
-
-Then verify:
+Verify the environment:
 
 ```powershell
-dir data\*.csv
-python src/check_setup.py
+python --version
+python -m pip check
 ```
 
-> **Note:** some copies swap the filenames. This code maps them by **size/role** (larger ≈ train). See [`data/README.md`](data/README.md).
+## Prepare data and run experiments
 
-### 4. Train & evaluate (best setup)
+The repository contains multiple pipelines, so there is no single command that safely prepares every experiment. Follow the sequence and file paths expected by the script you choose.
+
+### Three-dataset federated workflow
+
+A typical workflow is:
+
+1. Download the datasets from their official sources.
+2. Inspect and harmonize the source schemas and labels.
+3. Prepare the federated client datasets.
+4. Build or load the training-only scaler required by that experiment.
+5. Run the selected federated training script.
+6. Review the matching report and confusion matrix in `report/`.
+
+Relevant scripts include:
+
+```text
+src/inspect_3_datasets.py
+src/harmonize_3_datasets.py
+src/validate_harmonized_data.py
+src/prepare_3dataset_fl.py
+src/prepare_3dataset_20percent.py
+src/build_global_train_scaler.py
+src/federated_3dataset_bigru_mha.py
+src/federated_20percent_bigru_mha_v6.py
+```
+
+Before executing a script, review its configuration constants and expected data paths. Some scripts expect prepared arrays or a saved scaler from an earlier step and are not standalone download-and-train commands.
+
+### Full-feature workflow
+
+The full-feature Streamlit application expects local artifacts at these paths:
+
+- `models/federated_cnn_bigru_mha_full.keras`
+- `models/preprocessing_full_features.joblib`
+- `data/processed_full/X_test.npy`
+- `data/processed_full/y_test.npy`
+
+Generate or place the corresponding artifacts using the matching preparation and training workflow before launching the application.
+
+## Run the Streamlit applications
+
+From the repository root, with the virtual environment activated:
+
+### Full-feature application
 
 ```powershell
-# Binary (matches the paper best) — use this for demos
-python src/train.py --model cnn_lstm --mode binary --split stratified
-python src/evaluate.py --model cnn_lstm --mode binary --split stratified
-
-# Multiclass (10 attack types) — only after binary works
-python src/train.py --model cnn_lstm --mode multiclass --split stratified
-python src/evaluate.py --model cnn_lstm --mode multiclass --split stratified
+streamlit run app.py
 ```
 
-Other models: `--model cnn` or `--model lstm`  
-Harder protocol: `--split official` (train/test distribution shift)
+This application expects the full-feature model, preprocessing artifact, and prepared test arrays listed above.
 
-**Demo checklist:** [`DEMO.md`](DEMO.md)
+### Three-dataset application
 
----
+```powershell
+streamlit run app_3dataset.py
+```
 
+This application expects the three-dataset model at `models/federated_20percent_cnn_bigru_mha_corrected.keras` and the corresponding scaler/data artifacts under `data/fl_3datasets_20percent/`.
 
+If the application reports a missing file, verify that the artifact belongs to the same experiment version and that its path matches the constants in the application. Do not rename an unrelated model or scaler just to bypass a missing-file error.
 
+## Evaluation and explainability
 
-## Tech stack
+The `report/` directory contains generated artifacts from different experiment versions, including:
 
-Python 3.12 · TensorFlow / Keras · pandas · NumPy · scikit-learn · Matplotlib · Seaborn · Jupyter
+- Federated training and round metrics
+- Per-class metrics and final text reports
+- Confusion matrices in CSV and image formats
+- Model comparison tables
+- Unseen-data prediction checks
+- SHAP explanation tables and visualizations
 
----
+Useful examples include:
+
+- `report/federated_20percent_v6_final_report.txt`
+- `report/federated_20percent_v6_per_class_metrics.csv`
+- `report/federated_20percent_v6_confusion_matrix.csv`
+- `report/federated_3dataset_round_metrics.csv`
+- `report/final_model_comparison.csv`
+- `report/final_3dataset_shap_explanation.csv`
+
+Use the exact report associated with the model checkpoint and data split. For multiclass IDS evaluation, report accuracy together with per-class precision, recall, F1-score, support, and the confusion matrix. Overall accuracy alone can hide weak detection of minority attack classes.
+
+SHAP scripts and outputs provide feature-attribution explanations for selected predictions. These explanations are useful for analysis, but they should not be interpreted as proof of causality or as a substitute for security validation.
+
+## Reproducibility and limitations
+
+- **Data is not included:** raw datasets and large prepared arrays are excluded from version control. You must obtain and prepare them locally.
+- **Model artifacts may be local-only:** the application may require trained model files, scalers, and prepared test arrays that are not committed.
+- **Experiment variants differ:** do not compare metrics across runs unless their datasets, splits, preprocessing, class mapping, and evaluation procedures are aligned.
+- **Avoid data leakage:** fit preprocessing/scaling on training data only and keep test data out of model selection and training.
+- **Federated learning is not automatically private:** this code explores federated training; it does not establish formal differential privacy or guarantee protection against model-update leakage.
+- **Research use:** validate the pipeline in your target environment before considering operational deployment.
+
+## Future improvements
+
+- Add a single documented configuration/CLI entry point for each experiment.
+- Pin dependency versions and add automated smoke tests for data preparation and inference.
+- Provide a clean experiment manifest linking every model checkpoint to its dataset split, preprocessing artifacts, seed, and report.
+- Evaluate robustness and cross-dataset generalization under consistent protocols.
+- Investigate privacy-preserving aggregation and adversarial robustness.
 
 ## References
 
-1. Halbouni, A., Gunawan, T. S., Habaebi, M. H., Halbouni, M., Kartiwi, M., & Ahmad, R. (2022). *CNN-LSTM: Hybrid Deep Neural Network for Network Intrusion Detection System*. IEEE Access, 10, 99837–99849. https://doi.org/10.1109/ACCESS.2022.3206425  
+1. Moustafa, N., & Slay, J. (2015). *UNSW-NB15: A comprehensive data set for network intrusion detection systems*. Military Communications and Information Systems Conference (MilCIS).
+2. [UNSW-NB15 dataset](https://research.unsw.edu.au/projects/unsw-nb15-dataset).
+3. [CICIoT2023 dataset](https://www.unb.ca/cic/datasets/iotdataset-2023.html).
+4. [Edge-IIoTset dataset resources](https://ieee-dataport.org/documents/edge-iiotset-new-comprehensive-realistic-cyber-security-dataset-iot-and-iiot-applications).
 
-2. Moustafa, N., & Slay, J. (2015). *UNSW-NB15: a comprehensive data set for network intrusion detection systems*. MilCIS, IEEE.
+## Author
 
----
-
-## License & academic use
-
-UNSW-NB15 is free for academic research (cite Moustafa & Slay).  
-This repository is an educational internship implementation of a CNN–LSTM IDS.
+Developed as a final-year research project on federated deep learning and multi-class IoT intrusion detection.
 
 ---
 
+If you use or adapt this repository in academic work, cite the datasets and the research publications relevant to your experiment.
