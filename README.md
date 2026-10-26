@@ -130,44 +130,103 @@ python -m pip check
 
 ## Prepare data and run experiments
 
-The repository contains multiple pipelines, so there is no single command that safely prepares every experiment. Follow the sequence and file paths expected by the script you choose.
+The commands below are intended to be run from the repository root, with the virtual environment activated. **Dataset downloads are manual**: place the files in the exact folders listed below before running the scripts. These scripts do not download datasets automatically.
 
-### Three-dataset federated workflow
+### A. Three-dataset federated training — baseline pipeline
 
-A typical workflow is:
+#### 1. Place the source datasets in the expected folders
 
-1. Download the datasets from their official sources.
-2. Inspect and harmonize the source schemas and labels.
-3. Prepare the federated client datasets.
-4. Build or load the training-only scaler required by that experiment.
-5. Run the selected federated training script.
-6. Review the matching report and confusion matrix in `report/`.
-
-Relevant scripts include:
+The harmonization script expects this layout:
 
 ```text
-src/inspect_3_datasets.py
-src/harmonize_3_datasets.py
-src/validate_harmonized_data.py
-src/prepare_3dataset_fl.py
-src/prepare_3dataset_20percent.py
-src/build_global_train_scaler.py
-src/federated_3dataset_bigru_mha.py
-src/federated_20percent_bigru_mha_v6.py
+data/
+├── UNSW-NB15_1.csv
+├── UNSW-NB15_2.csv
+├── UNSW-NB15_3.csv
+├── UNSW-NB15_4.csv
+├── CICIoT2023/
+│   └── MERGED_CSV/
+│       └── <the merged CICIoT2023 CSV files>
+└── EdgeIIoTset/
+    └── archive (1)/
+        └── Edge-IIoTset dataset/
+            └── Selected dataset for ML and DL/
+                └── DNN-EdgeIIoT-dataset.csv
 ```
 
-Before executing a script, review its configuration constants and expected data paths. Some scripts expect prepared arrays or a saved scaler from an earlier step and are not standalone download-and-train commands.
+Adjust the folder names only if you also update the corresponding path constants in `src/harmonize_3_datasets.py`.
 
-### Full-feature workflow
+#### 2. Inspect the source datasets (recommended)
 
-The full-feature Streamlit application expects local artifacts at these paths:
+```powershell
+python src/inspect_3_datasets.py
+```
 
-- `models/federated_cnn_bigru_mha_full.keras`
-- `models/preprocessing_full_features.joblib`
-- `data/processed_full/X_test.npy`
-- `data/processed_full/y_test.npy`
+#### 3. Harmonize the three datasets
 
-Generate or place the corresponding artifacts using the matching preparation and training workflow before launching the application.
+```powershell
+python src/harmonize_3_datasets.py
+```
+
+This creates harmonized output under `data/harmonized_3datasets/`.
+
+#### 4. Validate the harmonized data
+
+```powershell
+python src/validate_harmonized_data.py
+```
+
+#### 5. Prepare federated client train/test partitions
+
+```powershell
+python src/prepare_3dataset_fl.py
+```
+
+This prepares client folders under `data/fl_3datasets/`.
+
+#### 6. Build the shared scaler from training data
+
+```powershell
+python src/build_global_train_scaler.py
+```
+
+This creates `data/fl_3datasets/global_train_scaler.npz`.
+
+#### 7. Train the three-dataset federated model
+
+```powershell
+python src/federated_3dataset_bigru_mha.py
+```
+
+The script writes model artifacts under `models/` and metrics/reports under `report/`. Training may require substantial RAM, disk space, and compute, especially with large source datasets.
+
+### B. Prepare the 20% experiment dataset
+
+Run this only after the harmonized files from step A have been generated:
+
+```powershell
+python src/prepare_3dataset_20percent.py
+```
+
+It creates the sampled partitions under `data/fl_3datasets_20percent/`. This script recreates that output folder when run, so copy any files you need to preserve before rerunning it.
+
+**Important:** `src/federated_20percent_bigru_mha_v6.py` is a warm-started experiment. Its comments and configuration show that it expects the V5 global model and shared scaler as inputs; it is not a first-run training command. Run it only when those matching V5 artifacts are already available, and inspect the script's configured model/scaler paths first.
+
+### C. Other useful commands
+
+Prediction and explainability scripts are tied to specific model/preprocessing versions. Check the paths at the top of the chosen script before running it.
+
+For the original UNSW-NB15 preprocessing/prediction pipeline:
+
+```powershell
+python src/federated.py
+python src/predict.py --help
+python src/predict.py --sample 0 --split stratified
+```
+
+The prediction command requires the model file configured in `src/predict.py` and the raw UNSW-NB15 files expected by `src/preprocess.py`. The default model path is `models/federated_cnn_lstm_multiclass.keras`; the training script must have generated that matching artifact first.
+
+For the three-dataset SHAP workflow, `src/explain_3dataset_final.py` requires its configured 20%-workflow model, scaler, and test CSVs to exist. Do not run it against a different model version without updating and validating its paths.
 
 ## Run the Streamlit applications
 
@@ -179,7 +238,14 @@ From the repository root, with the virtual environment activated:
 streamlit run app.py
 ```
 
-This application expects the full-feature model, preprocessing artifact, and prepared test arrays listed above.
+This application expects all of the following local artifacts:
+
+- `models/federated_cnn_bigru_mha_full.keras`
+- `models/preprocessing_full_features.joblib`
+- `data/processed_full/X_test.npy`
+- `data/processed_full/y_test.npy`
+
+These must be generated by the matching full-feature workflow before launch.
 
 ### Three-dataset application
 
@@ -187,9 +253,16 @@ This application expects the full-feature model, preprocessing artifact, and pre
 streamlit run app_3dataset.py
 ```
 
-This application expects the three-dataset model at `models/federated_20percent_cnn_bigru_mha_corrected.keras` and the corresponding scaler/data artifacts under `data/fl_3datasets_20percent/`.
+This application expects `models/federated_20percent_cnn_bigru_mha_corrected.keras`, the scaler `data/fl_3datasets_20percent/global_train_scaler.npz`, and test CSVs for all three clients under `data/fl_3datasets_20percent/`. The V6 model has a different filename and is not automatically substituted by this app.
 
-If the application reports a missing file, verify that the artifact belongs to the same experiment version and that its path matches the constants in the application. Do not rename an unrelated model or scaler just to bypass a missing-file error.
+### Verify the installed environment
+
+```powershell
+python --version
+python -m pip check
+```
+
+If a command fails with a missing-file error, stop and complete the preceding preparation/training step or obtain the exact matching artifact. Do not rename a different model or scaler merely to bypass the error.
 
 ## Evaluation and explainability
 
