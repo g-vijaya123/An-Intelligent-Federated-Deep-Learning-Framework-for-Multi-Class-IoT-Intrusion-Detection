@@ -1,0 +1,29 @@
+{
+  "UNSW_NB15": {
+    "accuracy": 0.3020934569619921,
+    "macro_precision": 0.11612139452902315,
+    "macro_recall": 0.14905937705625352,
+    "macro_f1": 0.07043995047668199,
+    "weighted_precision": 0.8839247453262155,
+    "weighted_recall": 0.3020934569619921,
+    "weighted_f1": 0.3831810773818664,
+    "test_records": 76142,
+    "number_of_classes": 10,
+    "dataset": "UNSW_NB15",
+    "best_round": 1,
+    "best_validation_macro_f1": 0.07094067735972277,
+    "best_validation_loss": 1.8473694324493408,
+    "model": "CNN + BiGRU + Multi-Head Attention",
+    "federated_method": "sample-count-weighted FedAvg within this dataset only",
+    "simulated_clients": 3,
+    "features": 41,
+    "classes": 10,
+    "rounds_requested": 1,
+    "local_steps_per_client_per_round": 5,
+    "batch_size": 128,
+    "learning_rate": 0.0001,
+    "training_sampling": "with-replacement class sampling proportional to sqrt(client class count)",
+    "validation_test_sampling": "original untouched split distribution",
+    "scaler_fit_on": "training split only"
+  }
+}

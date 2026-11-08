@@ -1,0 +1,14 @@
+{
+  "accuracy": 0.9586167949357779,
+  "macro_precision": 0.3388252370662602,
+  "macro_recall": 0.4124763838780347,
+  "macro_f1": 0.36290775470547587,
+  "weighted_precision": 0.9715093267155288,
+  "weighted_recall": 0.9586167949357779,
+  "weighted_f1": 0.964031876799685,
+  "test_records": 76142,
+  "number_of_classes": 10,
+  "dataset": "UNSW_NB15",
+  "model_checkpoint": "models\\independent_fl_v1\\UNSW_NB15\\federated_cnn_bigru_mha.keras",
+  "evaluation_split": "original untouched test.csv"
+}

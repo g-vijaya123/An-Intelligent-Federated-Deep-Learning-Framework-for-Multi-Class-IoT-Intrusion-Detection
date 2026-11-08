@@ -1,0 +1,2 @@
+round,average_local_loss,validation_loss,validation_accuracy,validation_macro_f1
+1,2.62280535697937,1.8473694324493408,0.30482709407806396,0.07094067735972277

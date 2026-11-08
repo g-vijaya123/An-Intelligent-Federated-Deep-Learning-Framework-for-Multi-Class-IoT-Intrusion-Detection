@@ -1,0 +1,325 @@
+
+================================================================================
+UNSW-NB15 - ORIGINAL FEATURE COLUMNS
+================================================================================
+File: C:\Users\gvija\Desktop\final project\data\UNSW-NB15_1.csv
+Number of columns: 49
+
+Column names and detected data types:
+srcip                                         str
+sport                                         int64
+dstip                                         str
+dsport                                        str
+proto                                         str
+state                                         str
+dur                                           float64
+sbytes                                        int64
+dbytes                                        int64
+sttl                                          int64
+dttl                                          int64
+sloss                                         int64
+dloss                                         int64
+service                                       str
+sload                                         float64
+dload                                         float64
+spkts                                         int64
+dpkts                                         int64
+swin                                          int64
+dwin                                          int64
+stcpb                                         int64
+dtcpb                                         int64
+smean                                         int64
+dmean                                         int64
+trans_depth                                   int64
+response_body_len                             int64
+sjit                                          float64
+djit                                          float64
+stime                                         int64
+ltime                                         int64
+sinpkt                                        float64
+dinpkt                                        float64
+tcprtt                                        float64
+synack                                        float64
+ackdat                                        float64
+is_sm_ips_ports                               int64
+ct_state_ttl                                  int64
+ct_flw_http_mthd                              int64
+is_ftp_login                                  int64
+ct_ftp_cmd                                    int64
+ct_srv_src                                    int64
+ct_srv_dst                                    int64
+ct_dst_ltm                                    int64
+ct_src_ltm                                    int64
+ct_src_dport_ltm                              int64
+ct_dst_sport_ltm                              int64
+ct_dst_src_ltm                                int64
+attack_cat                                    str
+label                                         int64
+
+UNSW-NB15 ORIGINAL LABELS
+Scanning labels: UNSW-NB15_1.csv
+Scanning labels: UNSW-NB15_2.csv
+Scanning labels: UNSW-NB15_3.csv
+Scanning labels: UNSW-NB15_4.csv
+
+Label distribution: attack_cat
+<MISSING>                                     2,218,764
+Generic                                       215,481
+Exploits                                      44,525
+Fuzzers                                       24,246
+DoS                                           16,353
+Reconnaissance                                13,987
+Analysis                                      2,677
+Backdoor                                      1,795
+Shellcode                                     1,511
+Backdoors                                     534
+Worms                                         174
+
+Label distribution: label
+0                                             2,218,764
+1                                             321,283
+
+================================================================================
+CICIoT2023 - ORIGINAL FEATURE COLUMNS
+================================================================================
+File: C:\Users\gvija\Desktop\final project\data\CICIoT2023\MERGED_CSV\Merged01.csv
+Number of columns: 40
+
+Column names and detected data types:
+Header_Length                                 float64
+Protocol Type                                 int64
+Time_To_Live                                  float64
+Rate                                          float64
+fin_flag_number                               float64
+syn_flag_number                               float64
+rst_flag_number                               float64
+psh_flag_number                               float64
+ack_flag_number                               float64
+ece_flag_number                               float64
+cwr_flag_number                               float64
+ack_count                                     int64
+syn_count                                     int64
+fin_count                                     int64
+rst_count                                     int64
+HTTP                                          float64
+HTTPS                                         float64
+DNS                                           float64
+Telnet                                        float64
+SMTP                                          float64
+SSH                                           float64
+IRC                                           float64
+TCP                                           float64
+UDP                                           float64
+DHCP                                          float64
+ARP                                           float64
+ICMP                                          float64
+IGMP                                          float64
+IPv                                           float64
+LLC                                           float64
+Tot sum                                       int64
+Min                                           int64
+Max                                           int64
+AVG                                           float64
+Std                                           float64
+Tot size                                      float64
+IAT                                           float64
+Number                                        int64
+Variance                                      float64
+Label                                         str
+
+CICIoT2023 ORIGINAL LABELS
+Scanning labels: Merged01.csv
+Scanning labels: Merged02.csv
+Scanning labels: Merged03.csv
+Scanning labels: Merged04.csv
+Scanning labels: Merged05.csv
+Scanning labels: Merged06.csv
+Scanning labels: Merged07.csv
+Scanning labels: Merged08.csv
+Scanning labels: Merged09.csv
+Scanning labels: Merged10.csv
+Scanning labels: Merged11.csv
+Scanning labels: Merged12.csv
+Scanning labels: Merged13.csv
+Scanning labels: Merged14.csv
+Scanning labels: Merged15.csv
+Scanning labels: Merged16.csv
+Scanning labels: Merged17.csv
+Scanning labels: Merged18.csv
+Scanning labels: Merged19.csv
+Scanning labels: Merged20.csv
+Scanning labels: Merged21.csv
+Scanning labels: Merged22.csv
+Scanning labels: Merged23.csv
+Scanning labels: Merged24.csv
+Scanning labels: Merged25.csv
+Scanning labels: Merged26.csv
+Scanning labels: Merged27.csv
+Scanning labels: Merged28.csv
+Scanning labels: Merged29.csv
+Scanning labels: Merged30.csv
+Scanning labels: Merged31.csv
+Scanning labels: Merged32.csv
+Scanning labels: Merged33.csv
+Scanning labels: Merged34.csv
+Scanning labels: Merged35.csv
+Scanning labels: Merged36.csv
+Scanning labels: Merged37.csv
+Scanning labels: Merged38.csv
+Scanning labels: Merged39.csv
+Scanning labels: Merged40.csv
+Scanning labels: Merged41.csv
+Scanning labels: Merged42.csv
+Scanning labels: Merged43.csv
+Scanning labels: Merged44.csv
+Scanning labels: Merged45.csv
+Scanning labels: Merged46.csv
+Scanning labels: Merged47.csv
+Scanning labels: Merged48.csv
+Scanning labels: Merged49.csv
+Scanning labels: Merged50.csv
+Scanning labels: Merged51.csv
+Scanning labels: Merged52.csv
+Scanning labels: Merged53.csv
+Scanning labels: Merged54.csv
+Scanning labels: Merged55.csv
+Scanning labels: Merged56.csv
+Scanning labels: Merged57.csv
+Scanning labels: Merged58.csv
+Scanning labels: Merged59.csv
+Scanning labels: Merged60.csv
+Scanning labels: Merged61.csv
+Scanning labels: Merged62.csv
+Scanning labels: Merged63.csv
+
+Label distribution: Label
+DDOS-ICMP_FLOOD                               6,893,259
+DDOS-UDP_FLOOD                                5,181,027
+DDOS-TCP_FLOOD                                4,306,086
+DDOS-PSHACK_FLOOD                             3,920,372
+DDOS-SYN_FLOOD                                3,886,130
+DDOS-RSTFINFLOOD                              3,872,808
+DDOS-SYNONYMOUSIP_FLOOD                       3,445,659
+DOS-UDP_FLOOD                                 3,177,323
+DOS-TCP_FLOOD                                 2,558,256
+DOS-SYN_FLOOD                                 1,942,176
+BENIGN                                        1,051,373
+MIRAI-GREETH_FLOOD                            949,381
+MIRAI-UDPPLAIN                                852,695
+MIRAI-GREIP_FLOOD                             719,655
+DDOS-ICMP_FRAGMENTATION                       433,157
+VULNERABILITYSCAN                             357,583
+MITM-ARPSPOOFING                              294,469
+DDOS-UDP_FRAGMENTATION                        274,909
+DDOS-ACK_FRAGMENTATION                        272,793
+DNS_SPOOFING                                  171,468
+RECON-HOSTDISCOVERY                           128,677
+RECON-OSSCAN                                  93,970
+RECON-PORTSCAN                                78,730
+DOS-HTTP_FLOOD                                68,799
+DDOS-HTTP_FLOOD                               27,597
+DDOS-SLOWLORIS                                22,400
+DICTIONARYBRUTEFORCE                          12,522
+BROWSERHIJACKING                              5,630
+COMMANDINJECTION                              5,168
+SQLINJECTION                                  5,022
+XSS                                           3,705
+BACKDOOR_MALWARE                              3,078
+RECON-PINGSWEEP                               2,161
+UPLOADING_ATTACK                              1,196
+<MISSING>                                     9
+
+================================================================================
+Edge-IIoTset - ORIGINAL FEATURE COLUMNS
+================================================================================
+File: C:\Users\gvija\Desktop\final project\data\EdgeIIoTset\archive (1)\Edge-IIoTset dataset\Selected dataset for ML and DL\DNN-EdgeIIoT-dataset.csv
+Number of columns: 63
+
+Column names and detected data types:
+frame.time                                    str
+ip.src_host                                   str
+ip.dst_host                                   str
+arp.dst.proto_ipv4                            str
+arp.opcode                                    float64
+arp.hw.size                                   float64
+arp.src.proto_ipv4                            str
+icmp.checksum                                 float64
+icmp.seq_le                                   float64
+icmp.transmit_timestamp                       float64
+icmp.unused                                   float64
+http.file_data                                float64
+http.content_length                           float64
+http.request.uri.query                        float64
+http.request.method                           float64
+http.referer                                  float64
+http.request.full_uri                         float64
+http.request.version                          float64
+http.response                                 float64
+http.tls_port                                 float64
+tcp.ack                                       float64
+tcp.ack_raw                                   float64
+tcp.checksum                                  float64
+tcp.connection.fin                            float64
+tcp.connection.rst                            float64
+tcp.connection.syn                            float64
+tcp.connection.synack                         float64
+tcp.dstport                                   float64
+tcp.flags                                     float64
+tcp.flags.ack                                 float64
+tcp.len                                       float64
+tcp.options                                   str
+tcp.payload                                   str
+tcp.seq                                       float64
+tcp.srcport                                   float64
+udp.port                                      float64
+udp.stream                                    float64
+udp.time_delta                                float64
+dns.qry.name                                  float64
+dns.qry.name.len                              int64
+dns.qry.qu                                    float64
+dns.qry.type                                  float64
+dns.retransmission                            float64
+dns.retransmit_request                        float64
+dns.retransmit_request_in                     float64
+mqtt.conack.flags                             str
+mqtt.conflag.cleansess                        float64
+mqtt.conflags                                 float64
+mqtt.hdrflags                                 float64
+mqtt.len                                      float64
+mqtt.msg_decoded_as                           float64
+mqtt.msg                                      str
+mqtt.msgtype                                  float64
+mqtt.proto_len                                float64
+mqtt.protoname                                str
+mqtt.topic                                    str
+mqtt.topic_len                                float64
+mqtt.ver                                      float64
+mbtcp.len                                     float64
+mbtcp.trans_id                                float64
+mbtcp.unit_id                                 float64
+Attack_label                                  int64
+Attack_type                                   str
+
+EDGE-IIoTset ORIGINAL LABELS
+Scanning labels: DNN-EdgeIIoT-dataset.csv
+
+Label distribution: Attack_label
+0                                             1,615,643
+1                                             603,558
+
+Label distribution: Attack_type
+Normal                                        1,615,643
+DDoS_UDP                                      121,568
+DDoS_ICMP                                     116,436
+SQL_injection                                 51,203
+Password                                      50,153
+Vulnerability_scanner                         50,110
+DDoS_TCP                                      50,062
+DDoS_HTTP                                     49,911
+Uploading                                     37,634
+Backdoor                                      24,862
+Port_Scanning                                 22,564
+XSS                                           15,915
+Ransomware                                    10,925
+MITM                                          1,214
+Fingerprinting                                1,001
